@@ -1,4 +1,5 @@
 /* eslint-disable semi */
+'use strict';
 var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
 var CLOUD_X = 100;
@@ -48,17 +49,17 @@ window.renderStatistics = function (ctx, names, times) {
     }
   }
   var diagram = [];
-  for (var i = 0; i < times.length; i++) {
+  for (i = 0; i < times.length; i++) {
     diagram[i] = DIAGRAM_HEIGHT * times[i] / swap;
   }
 
-  for (var i = 0; i < COLUMN_NUMBER; i++) {
+  for (i = 0; i < COLUMN_NUMBER; i++) {
     ctx.fillStyle = '#000000';
-    var color = "#0000";
+    var color = '#0000';
     var sub = Math.floor(Math.random() * 256).toString(16);
-    color += (sub.length == 1 ? "0" + sub : sub);
+    color += (sub.length === 1 ? '0' + sub : sub);
     if (names[i] === 'Вы') {
-      ctx.fillText(Math.floor(times[i]), CLOUD_X + DIAGRAM_MARGIN_RIGHT + DIAGRAM_WIDTH * i + DIAGRAM_SPACE_BETWEEN * i, CLOUD_Y + DIAGRAM_MARGIN_UP + DIAGRAM_HEIGHT - diagram[i] - DIAGRAM_MARGIN_DOWN /2);
+      ctx.fillText(Math.floor(times[i]), CLOUD_X + DIAGRAM_MARGIN_RIGHT + DIAGRAM_WIDTH * i + DIAGRAM_SPACE_BETWEEN * i, CLOUD_Y + DIAGRAM_MARGIN_UP + DIAGRAM_HEIGHT - diagram[i] - DIAGRAM_MARGIN_DOWN / 2);
       ctx.fillText(names[i], CLOUD_X + DIAGRAM_MARGIN_RIGHT + DIAGRAM_WIDTH * i + DIAGRAM_SPACE_BETWEEN * i, CLOUD_Y + CLOUD_HEIGHT - DIAGRAM_MARGIN_DOWN);
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
       ctx.fillRect(CLOUD_X + DIAGRAM_MARGIN_RIGHT + DIAGRAM_WIDTH * i + DIAGRAM_SPACE_BETWEEN * i, CLOUD_Y + DIAGRAM_MARGIN_UP + DIAGRAM_HEIGHT - diagram[i], DIAGRAM_WIDTH, diagram[i]);

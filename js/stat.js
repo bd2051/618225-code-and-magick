@@ -22,17 +22,24 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.shadowOffsetY = 10;
   ctx.shadowOffsetX = 10;
 
+  var cloudRightLine = CLOUD_X + CLOUD_WIDTH;
+  var cloudRightIncline = cloudRightLine - CLOUD_CUT_X;
+  var cloudLeftIncline = CLOUD_X + CLOUD_CUT_X;
+  var cloudDownLine = CLOUD_Y + CLOUD_HEIGHT;
+  var cloudDownIncline = cloudDownLine - CLOUD_CUT_Y;
+  var cloudUpIncline = CLOUD_Y + CLOUD_CUT_Y;
+
   ctx.fillStyle = 'white';
   ctx.beginPath();
-  ctx.moveTo(CLOUD_X + CLOUD_CUT_X, CLOUD_Y);
-  ctx.lineTo(CLOUD_X + CLOUD_WIDTH - CLOUD_CUT_X, CLOUD_Y);
-  ctx.lineTo(CLOUD_X + CLOUD_WIDTH, CLOUD_Y + CLOUD_CUT_Y);
-  ctx.lineTo(CLOUD_X + CLOUD_WIDTH, CLOUD_Y + CLOUD_HEIGHT - CLOUD_CUT_Y);
-  ctx.lineTo(CLOUD_X + CLOUD_WIDTH - CLOUD_CUT_X, CLOUD_Y + CLOUD_HEIGHT);
-  ctx.lineTo(CLOUD_X + CLOUD_CUT_X, CLOUD_Y + CLOUD_HEIGHT);
-  ctx.lineTo(CLOUD_X, CLOUD_Y + CLOUD_HEIGHT - CLOUD_CUT_Y);
-  ctx.lineTo(CLOUD_X, CLOUD_Y + CLOUD_CUT_Y);
-  ctx.lineTo(CLOUD_X + CLOUD_CUT_X, CLOUD_Y);
+  ctx.moveTo(cloudLeftIncline, CLOUD_Y);
+  ctx.lineTo(cloudRightIncline, CLOUD_Y);
+  ctx.lineTo(cloudRightLine, cloudUpIncline);
+  ctx.lineTo(cloudRightLine, cloudDownIncline);
+  ctx.lineTo(cloudRightIncline, cloudDownLine);
+  ctx.lineTo(cloudLeftIncline, cloudDownLine);
+  ctx.lineTo(CLOUD_X, cloudDownIncline);
+  ctx.lineTo(CLOUD_X, cloudUpIncline);
+  ctx.lineTo(cloudLeftIncline, CLOUD_Y);
   ctx.fill();
 
   ctx.shadowColor = 'transparent';
@@ -45,8 +52,11 @@ window.renderStatistics = function (ctx, names, times) {
     context.fillText(text, x, y);
   }
 
-  drawText(ctx, 'Ура вы победили!', CLOUD_X + TEXT_MARGIN_RIGHT, CLOUD_Y + TEXT_MARGIN_TOP);
-  drawText(ctx, 'Список результатов:', CLOUD_X + TEXT_MARGIN_RIGHT, CLOUD_Y + TEXT_MARGIN_TOP + TEXT_LINE_HEIGHT);
+  var textMarginRight = CLOUD_X + TEXT_MARGIN_RIGHT;
+  var textMarginTop = CLOUD_Y + TEXT_MARGIN_TOP;
+
+  drawText(ctx, 'Ура вы победили!', textMarginRight, textMarginTop);
+  drawText(ctx, 'Список результатов:', textMarginRight, textMarginTop + TEXT_LINE_HEIGHT);
 
   var swap = times[0];
   for (var i = 0; i < times.length; i++) {

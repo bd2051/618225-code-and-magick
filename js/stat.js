@@ -66,16 +66,11 @@ window.renderStatistics = function (ctx, names, times) {
   var namesY = CLOUD_Y + CLOUD_HEIGHT - DIAGRAM_MARGIN_DOWN;
 
   for (i = 0; i < COLUMN_NUMBER; i++) {
-    drawText(ctx, Math.floor(times[i]), firstColumnX + nextColumnX * i, timesY - diagram[i]);
-    drawText(ctx, names[i], firstColumnX + nextColumnX * i, namesY);
-    if (names[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      var color = '#0000';
-      var sub = Math.floor(Math.random() * 256).toString(16);
-      color += (sub.length === 1 ? '0' + sub : sub);
-      ctx.fillStyle = color;
-    }
-    ctx.fillRect(firstColumnX + nextColumnX * i, columnsY - diagram[i], DIAGRAM_WIDTH, diagram[i]);
+    var columnsX = firstColumnX + nextColumnX * i;
+    drawText(ctx, Math.floor(times[i]), columnsX, timesY - diagram[i]);
+    drawText(ctx, names[i], columnsX, namesY);
+    var opacity = Math.random().toFixed(2) * (1 - 0.3) + 0.3;
+    ctx.fillStyle = (names[i] === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255, ' + opacity + ')';
+    ctx.fillRect(columnsX, columnsY - diagram[i], DIAGRAM_WIDTH, diagram[i]);
   }
 }

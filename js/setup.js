@@ -1,12 +1,24 @@
 'use strict';
 
 var userDialog = document.querySelector('.setup');
+var userDialogOpen = document.querySelector('.setup-open');
+var userDialogClose = userDialog.querySelector('.setup-close');
 
 var showBlock = function (block) {
   block.classList.remove('hidden');
 };
 
-showBlock(userDialog);
+var hideBlock = function (block) {
+  block.classList.add('hidden');
+};
+
+userDialogOpen.addEventListener('click', function () {
+  showBlock(userDialog);
+});
+
+userDialogClose.addEventListener('click', function () {
+  hideBlock(userDialog);
+});
 
 var randomFirstName = [
   'Иван',

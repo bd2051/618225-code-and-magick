@@ -49,17 +49,20 @@ var wizardElements = [
   {
     inputElement: userDialog.querySelector('.coat-color'),
     wizardElement: userDialog.querySelector('.wizard-coat'),
-    colorIndex: 0
+    colorIndex: 0,
+    color: randomCoat[0]
   },
   {
     inputElement: userDialog.querySelector('.eyes-color'),
     wizardElement: userDialog.querySelector('.wizard-eyes'),
-    colorIndex: 0
+    colorIndex: 0,
+    color: randomEyes[0]
   },
   {
     inputElement: userDialog.querySelector('.fireball-color'),
     wizardElement: userDialog.querySelector('.setup-fireball-wrap'),
-    colorIndex: 0
+    colorIndex: 0,
+    color: randomFireball[0]
   }
 ];
 
@@ -77,11 +80,19 @@ var changeWizardElementColor = function (elementIndex, colors) {
   } else {
     wizardElements[elementIndex].wizardElement.style.fill = colors[wizardElements[elementIndex].colorIndex];
   }
+  wizardElements[elementIndex].color = colors[wizardElements[elementIndex].colorIndex];
+};
+
+var saveWizardElementColor = function () {
+  for (var i = 0; i < wizardElements.length; i++) {
+    wizardElements[i].inputElement.value = wizardElements[i].color;
+  }
 };
 
 var userDialogOpen = document.querySelector('.setup-open');
 var userDialogClose = userDialog.querySelector('.setup-close');
 var userDialogInput = document.querySelector('.setup-user-name');
+var userDialogSubmit = document.querySelector('.setup-wizard-form');
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 
@@ -123,6 +134,12 @@ var onUserNameFocus = function () {
 
 var onUserNameBlur = function () {
   document.addEventListener('keydown', onPopupEscPress);
+};
+
+var onSaveButtonSubmit = function (evt) {
+  evt.preventDefault();
+  saveWizardElementColor();
+  userDialogSubmit.submit();
 };
 
 var onWizardCoatClick = function () {
@@ -178,6 +195,7 @@ var openPopup = function () {
   userDialogOpen.removeEventListener('keydown', onUserAvatarEnterPress);
   userDialogInput.addEventListener('focus', onUserNameFocus);
   userDialogInput.addEventListener('blur', onUserNameBlur);
+  userDialogSubmit.addEventListener('submit', onSaveButtonSubmit);
 };
 
 var closePopup = function () {
@@ -195,6 +213,7 @@ var closePopup = function () {
   userDialogOpen.addEventListener('keydown', onUserAvatarEnterPress);
   userDialogInput.removeEventListener('focus', onUserNameFocus);
   userDialogInput.removeEventListener('blur', onUserNameBlur);
+  userDialogSubmit.removeEventListener('submit', onSaveButtonSubmit);
 };
 
 userDialogOpen.addEventListener('click', onUserAvatarClick);

@@ -81,7 +81,7 @@
         </div>
         <label>
           <input type="text" name="username"
-                 maxlength="25" required
+                 minlength="2" maxlength="25" required
                  class="setup-user-name" value="Синий Пендальф"/>
         </label>
       </div>
@@ -108,20 +108,20 @@
         <div class="setup-wizard-wrap">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 86" class="setup-wizard">
             <g class="wizard">
-              <use xlink:href="#wizard-coat" class="wizard-coat" style="fill: #6589a4"></use>
+              <use xlink:href="#wizard-coat" class="wizard-coat" tabindex="0" style="fill: #6589a4"></use>
               <use xlink:href="#wizard-head" class="wizard-head"></use>
-              <use xlink:href="#wizard-eyes" class="wizard-eyes"></use>
+              <use xlink:href="#wizard-eyes" class="wizard-eyes" tabindex="0"></use>
               <use xlink:href="#wizard-hands" class="wizard-hands"></use>
             </g>
           </svg>
         </div>
-        <input type="hidden" name="coat-color" value="rgb(101, 137, 164)">
-        <input type="hidden" name="eyes-color" value="black">
+        <input class="coat-color" type="hidden" name="coat-color" value="rgb(101, 137, 164)">
+        <input class="eyes-color" type="hidden" name="eyes-color" value="black">
       </div>
 
-      <div class="setup-fireball-wrap">
+      <div class="setup-fireball-wrap" tabindex="0">
         <div class="setup-fireball"></div>
-        <input type="hidden" name="fireball-color" value="#ee4830">
+        <input class="fireball-color" type="hidden" name="fireball-color" value="#ee4830">
       </div>
 
       <div class="setup-artifacts" dropzone="move">

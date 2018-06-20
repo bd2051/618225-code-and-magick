@@ -12,12 +12,59 @@ var hideBlock = function (block) {
   block.classList.add('hidden');
 };
 
-userDialogOpen.addEventListener('click', function () {
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var onObjectEnterPress = function (evt, cb) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    cb();
+  }
+};
+
+var openPopup = function () {
   showBlock(userDialog);
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  hideBlock(userDialog);
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+userDialogOpen.addEventListener('click', function () {
+  openPopup();
+});
+
+userDialogOpen.addEventListener('keydown', function (evt) {
+  onObjectEnterPress(evt, function () {
+    openPopup();
+  });
 });
 
 userDialogClose.addEventListener('click', function () {
-  hideBlock(userDialog);
+  closePopup();
+});
+
+userDialogClose.addEventListener('keydown', function (evt) {
+  onObjectEnterPress(evt, function () {
+    closePopup();
+  });
+});
+
+var userDialogInput = document.querySelector('.setup-user-name');
+
+userDialogInput.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+});
+
+userDialogInput.addEventListener('blur', function () {
+  document.addEventListener('keydown', onPopupEscPress);
 });
 
 var randomFirstName = [

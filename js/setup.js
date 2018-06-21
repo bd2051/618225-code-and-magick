@@ -1,13 +1,5 @@
 'use strict';
 
-var userDialog = document.querySelector('.setup');
-
-var showBlock = function (block) {
-  block.classList.remove('hidden');
-};
-
-showBlock(userDialog);
-
 var randomFirstName = [
   'Иван',
   'Хуан Себастьян',
@@ -43,6 +35,189 @@ var randomEyes = [
   'yellow',
   'green'
 ];
+var randomFireball = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
+
+var userDialog = document.querySelector('.setup');
+
+var wizardElements = [
+  {
+    inputElement: userDialog.querySelector('.coat-color'),
+    wizardElement: userDialog.querySelector('.wizard-coat'),
+    colorIndex: 0,
+    color: randomCoat[0]
+  },
+  {
+    inputElement: userDialog.querySelector('.eyes-color'),
+    wizardElement: userDialog.querySelector('.wizard-eyes'),
+    colorIndex: 0,
+    color: randomEyes[0]
+  },
+  {
+    inputElement: userDialog.querySelector('.fireball-color'),
+    wizardElement: userDialog.querySelector('.setup-fireball-wrap'),
+    colorIndex: 0,
+    color: randomFireball[0]
+  }
+];
+
+var COAT_INDEX = 0;
+var EYES_INDEX = 1;
+var FIREBALL_INDEX = 2;
+
+var changeWizardElementColor = function (elementIndex, colors) {
+  wizardElements[elementIndex].colorIndex++;
+  if (wizardElements[elementIndex].colorIndex >= colors.length) {
+    wizardElements[elementIndex].colorIndex = 0;
+  }
+  if (elementIndex === FIREBALL_INDEX) {
+    wizardElements[elementIndex].wizardElement.style.background = colors[wizardElements[elementIndex].colorIndex];
+  } else {
+    wizardElements[elementIndex].wizardElement.style.fill = colors[wizardElements[elementIndex].colorIndex];
+  }
+  wizardElements[elementIndex].color = colors[wizardElements[elementIndex].colorIndex];
+};
+
+var saveWizardElementColor = function () {
+  for (var i = 0; i < wizardElements.length; i++) {
+    wizardElements[i].inputElement.value = wizardElements[i].color;
+  }
+};
+
+var userDialogOpen = document.querySelector('.setup-open');
+var userDialogClose = userDialog.querySelector('.setup-close');
+var userDialogInput = document.querySelector('.setup-user-name');
+var userDialogSubmit = document.querySelector('.setup-wizard-form');
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var onObjectEnterPress = function (evt, cb) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    cb();
+  }
+};
+
+var onUserAvatarClick = function () {
+  openPopup();
+};
+
+var onUserAvatarEnterPress = function (evt) {
+  onObjectEnterPress(evt, function () {
+    openPopup();
+  });
+};
+
+var onCloseButtonClick = function () {
+  closePopup();
+};
+
+var onCloseButtonEnterPress = function (evt) {
+  onObjectEnterPress(evt, function () {
+    closePopup();
+  });
+};
+
+var onUserNameFocus = function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var onUserNameBlur = function () {
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var onSaveButtonSubmit = function (evt) {
+  evt.preventDefault();
+  saveWizardElementColor();
+  userDialogSubmit.submit();
+};
+
+var onWizardCoatClick = function () {
+  changeWizardElementColor(COAT_INDEX, randomCoat);
+};
+
+var onWizardCoatEnterPress = function (evt) {
+  onObjectEnterPress(evt, function () {
+    changeWizardElementColor(COAT_INDEX, randomCoat);
+  });
+};
+
+var onWizardEyesClick = function () {
+  changeWizardElementColor(EYES_INDEX, randomEyes);
+};
+
+var onWizardEyesEnterPress = function (evt) {
+  onObjectEnterPress(evt, function () {
+    changeWizardElementColor(EYES_INDEX, randomEyes);
+  });
+};
+
+var onWizardFireballClick = function () {
+  changeWizardElementColor(FIREBALL_INDEX, randomFireball);
+};
+
+var onWizardFireballEnterPress = function (evt) {
+  onObjectEnterPress(evt, function () {
+    changeWizardElementColor(FIREBALL_INDEX, randomFireball);
+  });
+};
+
+var showBlock = function (block) {
+  block.classList.remove('hidden');
+};
+
+var hideBlock = function (block) {
+  block.classList.add('hidden');
+};
+
+var openPopup = function () {
+  showBlock(userDialog);
+  document.addEventListener('keydown', onPopupEscPress);
+  wizardElements[COAT_INDEX].wizardElement.addEventListener('click', onWizardCoatClick);
+  wizardElements[COAT_INDEX].wizardElement.addEventListener('keydown', onWizardCoatEnterPress);
+  wizardElements[EYES_INDEX].wizardElement.addEventListener('click', onWizardEyesClick);
+  wizardElements[EYES_INDEX].wizardElement.addEventListener('keydown', onWizardEyesEnterPress);
+  wizardElements[FIREBALL_INDEX].wizardElement.addEventListener('click', onWizardFireballClick);
+  wizardElements[FIREBALL_INDEX].wizardElement.addEventListener('keydown', onWizardFireballEnterPress);
+  userDialogClose.addEventListener('click', onCloseButtonClick);
+  userDialogClose.addEventListener('keydown', onCloseButtonEnterPress);
+  userDialogOpen.removeEventListener('click', onUserAvatarClick);
+  userDialogOpen.removeEventListener('keydown', onUserAvatarEnterPress);
+  userDialogInput.addEventListener('focus', onUserNameFocus);
+  userDialogInput.addEventListener('blur', onUserNameBlur);
+  userDialogSubmit.addEventListener('submit', onSaveButtonSubmit);
+};
+
+var closePopup = function () {
+  hideBlock(userDialog);
+  document.removeEventListener('keydown', onPopupEscPress);
+  wizardElements[COAT_INDEX].wizardElement.removeEventListener('click', onWizardCoatClick);
+  wizardElements[COAT_INDEX].wizardElement.removeEventListener('keydown', onWizardCoatEnterPress);
+  wizardElements[EYES_INDEX].wizardElement.removeEventListener('click', onWizardEyesClick);
+  wizardElements[EYES_INDEX].wizardElement.removeEventListener('keydown', onWizardEyesEnterPress);
+  wizardElements[FIREBALL_INDEX].wizardElement.removeEventListener('click', onWizardFireballClick);
+  wizardElements[FIREBALL_INDEX].wizardElement.removeEventListener('keydown', onWizardFireballEnterPress);
+  userDialogClose.removeEventListener('click', onCloseButtonClick);
+  userDialogClose.removeEventListener('keydown', onCloseButtonEnterPress);
+  userDialogOpen.addEventListener('click', onUserAvatarClick);
+  userDialogOpen.addEventListener('keydown', onUserAvatarEnterPress);
+  userDialogInput.removeEventListener('focus', onUserNameFocus);
+  userDialogInput.removeEventListener('blur', onUserNameBlur);
+  userDialogSubmit.removeEventListener('submit', onSaveButtonSubmit);
+};
+
+userDialogOpen.addEventListener('click', onUserAvatarClick);
+userDialogOpen.addEventListener('keydown', onUserAvatarEnterPress);
 
 var getRandomWizard = function (firstName, secondName, coat, eyes) {
   var getRandomArbitrary = function (length) {

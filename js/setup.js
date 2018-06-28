@@ -180,6 +180,55 @@ var hideBlock = function (block) {
   block.classList.add('hidden');
 };
 
+var dialogHandler = userDialog.querySelector('.upload');
+
+var onDialogHandlerMouseDowm = function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var dragged = false;
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    dragged = true;
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    userDialog.style.top = (userDialog.offsetTop - shift.y) + 'px';
+    userDialog.style.left = (userDialog.offsetLeft - shift.x) + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    if (dragged) {
+      var onClickPreventDefault = function (e) {
+        e.preventDefault();
+        dialogHandler.removeEventListener('click', onClickPreventDefault);
+      };
+      dialogHandler.addEventListener('click', onClickPreventDefault);
+    }
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+};
+
 var openPopup = function () {
   showBlock(userDialog);
   document.addEventListener('keydown', onPopupEscPress);
@@ -196,6 +245,7 @@ var openPopup = function () {
   userDialogInput.addEventListener('focus', onUserNameFocus);
   userDialogInput.addEventListener('blur', onUserNameBlur);
   userDialogSubmit.addEventListener('submit', onSaveButtonSubmit);
+  dialogHandler.addEventListener('mousedown', onDialogHandlerMouseDowm);
 };
 
 var closePopup = function () {
@@ -214,6 +264,9 @@ var closePopup = function () {
   userDialogInput.removeEventListener('focus', onUserNameFocus);
   userDialogInput.removeEventListener('blur', onUserNameBlur);
   userDialogSubmit.removeEventListener('submit', onSaveButtonSubmit);
+  dialogHandler.removeEventListener('mousedown', onDialogHandlerMouseDowm);
+  userDialog.style.top = '80px';
+  userDialog.style.left = '50%';
 };
 
 userDialogOpen.addEventListener('click', onUserAvatarClick);

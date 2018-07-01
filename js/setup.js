@@ -1,6 +1,6 @@
 'use strict';
 
-window.setup = (function () {
+(function () {
   var randomCoat = [
     'rgb(101, 137, 164)',
     'rgb(241, 43, 107)',
@@ -245,7 +245,7 @@ window.setup = (function () {
   userDialogOpen.addEventListener('click', onUserAvatarClick);
   userDialogOpen.addEventListener('keydown', onUserAvatarEnterPress);
 
-  return {
+  window.setup = {
     coat: randomCoat,
     eyes: randomEyes,
     block: userDialog

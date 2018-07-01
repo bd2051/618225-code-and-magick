@@ -1,7 +1,7 @@
 'use strict';
 
-window.util = (function () {
-  return {
+(function () {
+  window.util = {
     showBlock: function (block) {
       block.classList.remove('hidden');
     },

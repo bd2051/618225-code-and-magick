@@ -109,9 +109,8 @@
     document.addEventListener('keydown', onPopupEscPress);
   };
 
-  var onSucsessLoad = function (response) {
+  var onSucsessLoad = function () {
     closePopup();
-    console.log(response);
   };
 
   var onSaveButtonSubmit = function (evt) {

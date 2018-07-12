@@ -10,7 +10,7 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
-    var errorMessage = isSaveFunction ? 'Не сохранено!' : 'Данные не загрузились!'
+    var errorMessage = isSaveFunction ? 'Не сохранено!' : 'Данные не загрузились!';
     xhr.addEventListener('load', function () {
       if (xhr.status === SUCSESS_CODE) {
         onLoad(xhr.response);

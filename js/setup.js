@@ -74,19 +74,11 @@
   var userDialogClose = userDialog.querySelector('.setup-close');
   var userDialogInput = document.querySelector('.setup-user-name');
   var userDialogSubmit = document.querySelector('.setup-wizard-form');
-  var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    window.util.onObjectEscPress(evt, function () {
       closePopup();
-    }
-  };
-
-  var onObjectEnterPress = function (evt, cb) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      cb();
-    }
+    });
   };
 
   var onUserAvatarClick = function () {
@@ -94,7 +86,7 @@
   };
 
   var onUserAvatarEnterPress = function (evt) {
-    onObjectEnterPress(evt, function () {
+    window.util.onObjectEnterPress(evt, function () {
       openPopup();
     });
   };
@@ -104,7 +96,7 @@
   };
 
   var onCloseButtonEnterPress = function (evt) {
-    onObjectEnterPress(evt, function () {
+    window.util.onObjectEnterPress(evt, function () {
       closePopup();
     });
   };
@@ -117,10 +109,15 @@
     document.addEventListener('keydown', onPopupEscPress);
   };
 
+  var onSucsessLoad = function () {
+    closePopup();
+  };
+
   var onSaveButtonSubmit = function (evt) {
     evt.preventDefault();
     saveWizardElementColor();
-    userDialogSubmit.submit();
+    window.backend.save(new FormData(userDialogSubmit), onSucsessLoad, window.util.onErrorLoad);
+    document.querySelector('.setup-submit').blur();
   };
 
   var onWizardCoatClick = function () {
@@ -128,7 +125,7 @@
   };
 
   var onWizardCoatEnterPress = function (evt) {
-    onObjectEnterPress(evt, function () {
+    window.util.onObjectEnterPress(evt, function () {
       changeWizardElementColor(COAT_INDEX, randomCoat);
     });
   };
@@ -138,7 +135,7 @@
   };
 
   var onWizardEyesEnterPress = function (evt) {
-    onObjectEnterPress(evt, function () {
+    window.util.onObjectEnterPress(evt, function () {
       changeWizardElementColor(EYES_INDEX, randomEyes);
     });
   };
@@ -148,7 +145,7 @@
   };
 
   var onWizardFireballEnterPress = function (evt) {
-    onObjectEnterPress(evt, function () {
+    window.util.onObjectEnterPress(evt, function () {
       changeWizardElementColor(FIREBALL_INDEX, randomFireball);
     });
   };

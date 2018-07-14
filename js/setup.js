@@ -62,6 +62,7 @@
       wizardElements[elementIndex].wizardElement.style.fill = colors[wizardElements[elementIndex].colorIndex];
     }
     wizardElements[elementIndex].color = colors[wizardElements[elementIndex].colorIndex];
+    return wizardElements[elementIndex].color;
   };
 
   var saveWizardElementColor = function () {
@@ -121,22 +122,22 @@
   };
 
   var onWizardCoatClick = function () {
-    changeWizardElementColor(COAT_INDEX, randomCoat);
+    window.setup.onCoatChange(changeWizardElementColor(COAT_INDEX, randomCoat));
   };
 
   var onWizardCoatEnterPress = function (evt) {
     window.util.onObjectEnterPress(evt, function () {
-      changeWizardElementColor(COAT_INDEX, randomCoat);
+      window.setup.onCoatChange(changeWizardElementColor(COAT_INDEX, randomCoat));
     });
   };
 
   var onWizardEyesClick = function () {
-    changeWizardElementColor(EYES_INDEX, randomEyes);
+    window.setup.onEyesChange(changeWizardElementColor(EYES_INDEX, randomEyes));
   };
 
   var onWizardEyesEnterPress = function (evt) {
     window.util.onObjectEnterPress(evt, function () {
-      changeWizardElementColor(EYES_INDEX, randomEyes);
+      window.setup.onEyesChange(changeWizardElementColor(EYES_INDEX, randomEyes));
     });
   };
 
@@ -245,6 +246,10 @@
   window.setup = {
     coat: randomCoat,
     eyes: randomEyes,
-    block: userDialog
+    block: userDialog,
+    onEyesChange: function () {
+    },
+    onCoatChange: function () {
+    },
   };
 })();
